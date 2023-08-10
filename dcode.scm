@@ -25,6 +25,17 @@
   (cond [(null? lst) '()]
         [else (append (cdr lst) (car lst))]))
 
+; map :: (T -> U) -> [T] -> [U]
+(define (map f lst)
+  (cond [(null? lst) '()]
+        [else (cons (f (car lst)) (map f (cdr lst)))]))
+
+; filter :: (T -> bool) -> [T] -> [T]
+(define (filter f lst)
+  (cond [(null? lst) '()]
+        [(not (f (car lst))) (filter f (cdr lst))]
+        [else (cons (car lst) (filter f (cdr lst)))]))
+
 
 
 #|   "I think differently in Scheme."   |#
