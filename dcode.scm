@@ -63,5 +63,18 @@
         [else (append (dcode-reverse (cdr lst)) (list (car lst)))]))
 
 
+;; love :: [T] -> [U] -> [V]
+(define love (you me)
+  "dedication to each other"
+  (let ((us (+ me you
+               hard-work
+               communication
+               improve
+               patience)))
+    us)
+; test
+(love you me)
+
+
 
 #|   "I think differently in Scheme."   |#
