@@ -31,7 +31,7 @@
   (cond [(null? lst) acc]
         [else (fold f (f acc (car lst)) (cdr lst))]))
 
-;; map :: (T -> U) -> [T] -> [U]
+;; map (formerly known as mapcar) :: (T -> U) -> [T] -> [U]
 (define (map f lst)
   (cond [(null? lst) '()]
         [else (cons (f (car lst)) (map f (cdr lst)))]))
@@ -63,18 +63,40 @@
         [else (append (dcode-reverse (cdr lst)) (list (car lst)))]))
 
 
+
 ;; love :: [T] -> [U] -> [V]
 (define love (you me)
   "dedication to each other"
   (let ((us (+ me you
                hard-work
                communication
-               improve
-               patience)))
+               improve patience)))
     us)
 ; test
 (love you me)
 
 
 
-#|   "I think differently in Scheme."   |#
+;; begin evaluates each of its arguments (S-expressions) and returns the result
+;; of the evaluation of the last argument.
+;; begin :: [sexpr] -> T
+(define (begin . args)
+  (cond ((null? args) #<void>) ; return a void value for an empty begin.
+        ((null? (cdr args)) (car args)) ; if last expression, return its value.
+        (else (car args) ; evaluate the first expression for its side-effects.
+              (apply begin (cdr args))))) ; recursively evaluate the rest.
+
+
+;; let vs lambda
+(let ((a 2)
+      (b 8))
+  (* a b))
+
+((lambda (a b) (* a b))
+   2 8)
+
+
+
+
+
+#|   "I think differently in Scheme. Lisps in general are life-changing."   |#
