@@ -87,6 +87,7 @@
               (apply begin (cdr args))))) ; recursively evaluate the rest.
 
 
+
 ;; let vs lambda
 (let ((a 2)
       (b 8))
@@ -95,18 +96,27 @@
 ((lambda (a b) (* a b))
    2 8)
 
-
+;; a begin is a let with no bindings.
 (begin
-  (sexp)
-  (sexp))
-
-(lambda ()
   (sexp)
   (sexp))
 
 (let ()
   (sexp)
   (sexp))
+
+
+;; a let is an immediately-invoked (lambda) function expression (iife).
+(let ((a (sexp-a))
+      (b (sexp-b)))
+  (sexp)
+  (sexp))
+
+((lambda (a b)
+  (sexp)
+  (sexp))
+ (sexp-a)
+ (sexp-b))
 
 
 
