@@ -96,7 +96,22 @@
    2 8)
 
 
+(begin
+  (sexp)
+  (sexp))
+
+(lambda ()
+  (sexp)
+  (sexp))
+
+(let ()
+  (sexp)
+  (sexp))
 
 
 
-#|   "I think differently in Scheme. Lisps in general are life-changing."   |#
+
+
+
+#|   "I think differently in Scheme. Lisps in general are life-changing.    |#
+#|    I 'see' code ... as form."                                            |#
