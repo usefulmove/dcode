@@ -123,11 +123,6 @@
 
 
 
-;; constants
-((lambda () 8))
-
-
-
 
 
 #|   "I think differently in Scheme. Lisps in general are life-changing.    |#
