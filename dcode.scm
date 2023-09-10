@@ -4,11 +4,11 @@
 
 #|  (dcode )  |#
 
-;; dcode-range :: int -> [int]
-(define (dcode-range n)
-  (cond [(zero? n) '()]
-        [else (append (dcode-range (sub1 n))
-                      (list (sub1 n)))]))
+;; range :: int -> [int]
+(define (range n)
+  (cond ((zero? n) '())
+        (else (append (range (sub1 n))
+                      (list (sub1 n))))))
 
 ;; curry2 :: (T -> T -> T) -> (T -> (T -> T))
 (define (curry2 f)
@@ -23,47 +23,49 @@
 
 ;; curry :: (T -> T -> T -> ... -> T) -> (T -> (T -> ... (T -> T))))
 (define (curry.wip f)
-  (letrec ([arity (procedure-arity f)]
-           [recurse (lambda (g n)
-                      (cond [(zero? n) (lambda (a) (g a))]
-                            [else (recurse g (sub1 n))]))])
+  (letrec ((arity (procedure-arity f))
+           (recurse (lambda (g n)
+                      (cond ((zero? n) (lambda (a) (g a)))
+                            (else (recurse g (sub1 n)))))))
     (recurse f arity)))
+
+;; map :: (T -> U) -> [T] -> [U]
+(define (map f lst)
+  (cond ((null? lst) '())
+        (else (cons (f (car lst)) (map f (cdr lst))))))
 
 ;; fold :: (U -> T -> U) -> U -> [T] -> U
 (define (fold f acc lst)
-  (cond [(null? lst) acc]
-        [else (fold f (f acc (car lst)) (cdr lst))]))
+  (if (null? lst) acc
+      (fold f
+            (f acc (car lst))
+            (cdr lst))))
 
-;; map (formerly known as mapcar) :: (T -> U) -> [T] -> [U]
-(define (map f lst)
-  (cond [(null? lst) '()]
-        [else (cons (f (car lst)) (map f (cdr lst)))]))
-
-;; dcode-filter :: (T -> bool) -> [T] -> [T]
-(define (dcode-filter f lst)
-  (cond [(null? lst) '()]
-        [(not (f (car lst))) (dcode-filter f (cdr lst))]
-        [else (cons (car lst) (dcode-filter f (cdr lst)))]))
+;; filter :: (T -> bool) -> [T] -> [T]
+(define (filter f lst)
+  (cond ((null? lst) '())
+        ((not (f (car lst))) (filter f (cdr lst)))
+        (else (cons (car lst) (filter f (cdr lst))))))
 
 
 (zero? (+)) ; evaluates to #t (true )
 
-;; dcode-any? :: (T -> bool) -> [T] -> bool
-(define dcode-any? (lambda (f lst)
-  (cond [(null? lst) #f]
-        [(f (car lst)) #t]
-        [else (dcode-any? f (cdr lst))])))
+;; any? :: (T -> bool) -> [T] -> bool
+(define any? (lambda (f lst)
+  (cond ((null? lst) #f)
+        ((f (car lst)) #t)
+        (else (any? f (cdr lst))))))
 
-;; dcode-all? :: (T -> bool) -> [T] -> bool
-(define (dcode-all? f lst)
-  (cond [(null? lst) #t]
-        [(not (f (car lst))) #f]
-        [else (dcode-all? f (cdr lst))]))
+;; all? :: (T -> bool) -> [T] -> bool
+(define (all? f lst)
+  (cond ((null? lst) #t)
+        ((not (f (car lst))) #f)
+        (else (all? f (cdr lst)))))
 
-;; dcode-reverse :: [T] -> [T]
-(define (dcode-reverse lst)
-  (cond [(null? lst) '()]
-        [else (append (dcode-reverse (cdr lst)) (list (car lst)))]))
+;; reverse :: [T] -> [T]
+(define (reverse lst)
+  (cond ((null? lst) '())
+        (else (append (reverse (cdr lst)) (list (car lst))))))
 
 
 
@@ -126,4 +128,4 @@
 
 
 #|   "I think differently in Scheme. Lisps in general are life-changing.    |#
-#|    I 'see' code ... as form."                                            |#
+#|    I see code as form."                                                  |#
